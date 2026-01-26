@@ -33,7 +33,7 @@ class HelloObject(SimObject):
     cxx_header = "learning_gem5/part2/hello_object.hh"
     cxx_class = "gem5::HelloObject"
 
-    time_to_wait = Param.Latency("Time before firing the event")
+    time_to_wait1 = Param.Latency("Time before firing the event")
     number_of_fires = Param.Int(
         1, "Number of times to fire the event before goodbye"
     )

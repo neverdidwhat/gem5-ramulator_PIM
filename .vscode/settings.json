@@ -2,8 +2,10 @@
     "python.analysis.extraPaths": [
         "src/python",
         "ext",
-        "tests"
+        "tests",
+        "build/ALL/python"
     ],
+    "python.analysis.typeCheckingMode": "off",
     "githubPullRequests.overrideDefaultBranch": "develop",
     "githubPullRequests.pushBranch": "always",
     "githubPullRequests.queries": [

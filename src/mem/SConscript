@@ -167,3 +167,15 @@ DebugFlag('TokenPort')
 DebugFlag("MemChecker")
 DebugFlag("MemCheckerMonitor")
 DebugFlag("QOS")
+
+
+env.Append(CPPPATH=[
+    '/home/pqr/project/Ramulator_LPDDR6_PIM/include',
+    '/home/pqr/project/Ramulator_LPDDR6_PIM/src',
+])
+SimObject('Ramulator2.py', sim_objects=['Ramulator2'])
+Source('ramulator2.cc')
+DebugFlag('Ramulator2')
+env.Append(LIBPATH=['/home/pqr/project/Ramulator_LPDDR6_PIM'])
+env.Append(LIBS=['ramulator', 'fmt'])
+env.Append(LINKFLAGS=['-Wl,-rpath,/home/pqr/project/Ramulator_LPDDR6_PIM'])

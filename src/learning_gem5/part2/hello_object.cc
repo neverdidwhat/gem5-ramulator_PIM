@@ -43,7 +43,7 @@ HelloObject::HelloObject(const HelloObjectParams &params) :
     goodbye(params.goodbye_object),
     // Note: This is not needed as you can *always* reference this->name()
     myName(params.name),
-    latency(params.time_to_wait),
+    latency(params.time_to_wait1),
     timesLeft(params.number_of_fires)
 {
     DPRINTF(HelloExample, "Created the hello object\n");
