@@ -1,6 +1,7 @@
 from gem5.utils.requires import requires  
 from gem5.components.boards.arm_board import ArmBoard  
-from gem5.components.memory.single_channel import DIMM_DDR5_8400  
+# from gem5.components.memory.single_channel import DIMM_DDR5_8400  
+from gem5.components.memory.ramulator_2 import SingleChannel
 # from gem5.components.cachehierarchies.ruby.mesi_two_level_cache_hierarchy import MESITwoLevelCacheHierarchy  
 from gem5.components.cachehierarchies.classic.private_l1_private_l2_cache_hierarchy import PrivateL1PrivateL2CacheHierarchy
 from gem5.components.processors.simple_processor import SimpleProcessor  
@@ -41,11 +42,12 @@ cache_hierarchy = PrivateL1PrivateL2CacheHierarchy(
 )
 
 
-memory = DIMM_DDR5_8400(size="2GiB")  
+# memory = DIMM_DDR5_8400(size="2GiB") 
+memory = SingleChannel(config_path="/home/pqr/project/Ramulator_LPDDR6_PIM/example_config_LPDDR6_PIM_gem5.yaml", size="256MiB", range="256MiB") 
 
 
 processor = SimpleProcessor(  
-    cpu_type=CPUTypes.TIMING,        
+    cpu_type=CPUTypes.O3,        
     num_cores=1,
     isa=ISA.ARM
 )  

@@ -28,7 +28,7 @@ cache_hierarchy = PrivateL1CacheHierarchy(
 memory = SingleChannel(config_path="/home/pqr/project/Ramulator_LPDDR6_PIM/example_config_LPDDR6_PIM_gem5.yaml", size="256MiB", range="256MiB")
 
 processor = SimpleProcessor(
-    cpu_type=CPUTypes.O3,
+    cpu_type=CPUTypes.TIMING,
     isa=ISA.ARM,
     num_cores=1,
 )

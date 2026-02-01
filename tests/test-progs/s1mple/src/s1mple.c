@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdint.h>
 
-#define ARRAY_SIZE (128 * 1024 * 1024)  // 自己改这里
+#define ARRAY_SIZE (32 * 1024 * 1024)  // 自己改这里
 
 char *src;
 volatile uint64_t sink;
