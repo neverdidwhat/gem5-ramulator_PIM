@@ -89,7 +89,7 @@ memory = SingleChannelDDR3_1600(size="3GiB")
 
 processor = SimpleSwitchableProcessor(
     starting_core_type=CPUTypes.KVM,
-    switch_core_type=CPUTypes.TIMING,
+    switch_core_type=CPUTypes.O3,
     isa=ISA.X86,
     num_cores=2,
 )
@@ -135,7 +135,8 @@ class CustomKernelBootedExitHandler(ExitHandler, hypercall_num=1):
 class CustomAfterBootExitHandler(ExitHandler, hypercall_num=2):
     @overrides(ExitHandler)
     def _process(self, simulator: "Simulator") -> None:
-        simulator.switch_processor()
+        pass
+        # simulator.switch_processor()
 
     @overrides(ExitHandler)
     def _exit_simulation(self) -> bool:

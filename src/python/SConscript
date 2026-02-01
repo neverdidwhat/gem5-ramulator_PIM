@@ -454,3 +454,6 @@ Source('pybind11/stats.cc', tags=['python'])
 
 SimObject('m5/objects/SimObject.py', sim_objects=['SimObject'],
         enums=['ByteOrder'])
+
+
+PySource('gem5.components.memory', 'gem5/components/memory/ramulator_2.py')

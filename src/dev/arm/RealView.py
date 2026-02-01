@@ -89,6 +89,7 @@ from m5.objects.VoltageDomain import VoltageDomain
 from m5.params import *
 from m5.proxy import *
 from m5.util.fdthelper import *
+from m5.objects.PimCtrl import PimCtrl
 
 # Platforms with KVM support should generally use in-kernel GIC
 # emulation. Use a GIC model that automatically switches between
@@ -1767,3 +1768,11 @@ class VExpress_GEM5_Foundation(VExpress_GEM5_Base):
         if boot_loader is None:
             boot_loader = [loc("boot_foundation.arm64")]
         super().setupBootLoader(cur_sys, boot_loader)
+
+class VExpress_GEM5_V1_PIM(VExpress_GEM5_Foundation):
+    pimctrl = PimCtrl(
+        pio_addr=0x2FFF0000,
+    )
+
+    def _on_chip_devices(self):
+        return super()._on_chip_devices() + [self.pimctrl]

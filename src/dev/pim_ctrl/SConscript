@@ -1,0 +1,9 @@
+Import('*')
+print("\n" + "="*30 + "\ngem5: Found PimCtrl!\n" + "="*30 + "\n")
+# 让 gem5 知道有一个新的 SimObject
+SimObject('PimCtrl.py', sim_objects=['PimCtrl'])
+
+# 编译 C++ 文件
+Source('pim_ctrl.cc')
+
+
