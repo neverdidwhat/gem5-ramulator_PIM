@@ -1,12 +1,17 @@
 from m5.params import *
 from m5.objects.Device import BasicPioDevice
+from m5.objects.Gic import ArmSPI
 
 class PimCtrl(BasicPioDevice):
     type = 'PimCtrl'
     cxx_header = "dev/pim_ctrl/pim_ctrl.hh"
     cxx_class = "gem5::PimCtrl"
     #表示设备占用的内存大小
-    pio_size = Param.Addr(0x100, "Device window size")
+    pio_size = Param.Addr(0x4000, "Device window size")
+    # pio_addr = Param.Addr(0x2E010000, "Device pio address")
+    interrupt = Param.ArmInterruptPin(
+        ArmSPI(num=108), "Interrupt that connects to GIC"
+    )
 
     def generateDeviceTree(self, state):
         """
@@ -20,6 +25,7 @@ class PimCtrl(BasicPioDevice):
             "pimctrl",          # 设备节点名（设备树中的节点前缀）
             self.pio_addr,      # MMIO 基地址
             self.pio_size,      # MMIO 窗口大小
+            interrupts=[self.interrupt],  # 中断号列表
         )
 
         # 2) 添加兼容字符串，供内核/驱动匹配（简洁且明确）

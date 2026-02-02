@@ -6,4 +6,4 @@ SimObject('PimCtrl.py', sim_objects=['PimCtrl'])
 # 编译 C++ 文件
 Source('pim_ctrl.cc')
 
-
+DebugFlag('PIMCTRL', 'PimCtrl Debugging Messages')

@@ -1771,7 +1771,7 @@ class VExpress_GEM5_Foundation(VExpress_GEM5_Base):
 
 class VExpress_GEM5_V1_PIM(VExpress_GEM5_Foundation):
     pimctrl = PimCtrl(
-        pio_addr=0x2FFF0000,
+        pio_addr=0x2E010000,
     )
 
     def _on_chip_devices(self):

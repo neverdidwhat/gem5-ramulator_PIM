@@ -4,7 +4,7 @@
 #include <unistd.h>  // 修复：添加此头文件以解决 close() 警告
 #include <stdlib.h>  // 修复：为了使用 strtoul 将命令行参数转为数字
 
-#define PIM_CTRL_BASE 0x2FFF0000 // 必须和 Python 脚本里的一致
+#define PIM_CTRL_BASE 0x2E010000 // 必须和 Python 脚本里的一致
 
 void pim_gemv(unsigned long val) { 
     // 打开 /dev/mem 获取物理内存访问权限
@@ -25,7 +25,7 @@ void pim_gemv(unsigned long val) {
     // 执行非缓存写 (Uncached Write)
     // 使用 (void*) 转换确保偏移正确，触发 gem5 中的 0x10 偏移逻辑
     printf("LazyMan: Sending value %lu to PIM_CTRL at offset 0x10...\n", val);
-    *((volatile unsigned long *)((char *)ptr + 0x10)) = val; 
+    *((volatile unsigned char *)((unsigned char *)ptr + 0x0000)) = val; 
     
     // 释放资源
     munmap(ptr, 4096); 
@@ -34,7 +34,7 @@ void pim_gemv(unsigned long val) {
 
 // 修复：添加 main 函数，让程序可以运行
 int main(int argc, char *argv[]) {
-    unsigned long test_val = 888; // 默认值
+    unsigned long test_val = 1; // 默认值
 
     // 如果运行程序时跟了参数，如 ./pim_test 1234
     if (argc > 1) {
