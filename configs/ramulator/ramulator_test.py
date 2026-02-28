@@ -65,7 +65,7 @@ system.cpu.createInterruptController()
 
 # Create a DDR3 memory controller and connect it to the membus
 system.mem_ctrl = Ramulator2(
-    config_path="/home/pqr/project/Ramulator_LPDDR6_PIM/example_config_LPDDR6_PIM_gem5.yaml",
+    config_path="/home/fjc/project/Ramulator_LPDDR6_PIM_V2_copy/example_config_LPDDR6_PIM_gem5.yaml",
     range="256MiB",
 )
 system.mem_ctrl.port = system.membus.mem_side_ports

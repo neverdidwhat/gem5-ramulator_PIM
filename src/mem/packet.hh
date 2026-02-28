@@ -149,7 +149,9 @@ class MemCmd
         HTMAbort,
         // Tlb shootdown
         TlbiExtSync,
-        NUM_MEM_CMDS
+        NUM_MEM_CMDS,
+        // PIM GEMV Request
+        PimGEMVReq
     };
 
   private:

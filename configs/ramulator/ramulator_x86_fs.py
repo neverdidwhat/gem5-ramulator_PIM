@@ -65,14 +65,14 @@ board = X86Board(
 
 
 # workload = obtain_resource(
-#     "x86-ubuntu-24.04-boot-with-systemd", resource_version="5.0.0", resource_directory="/home/pqr/gem5_imgs/", download_md5_mismatch=False
+#     "x86-ubuntu-24.04-boot-with-systemd", resource_version="5.0.0", resource_directory="/home/fjc/project/gem5_imgs/", download_md5_mismatch=False
 # )
 # board.set_workload(workload)
 
-# disk_image = obtain_resource("x86-ubuntu-24.04-img", resource_directory="/home/pqr/gem5_imgs/" , download_md5_mismatch=False)
-disk_image = DiskImageResource(local_path="/home/pqr/gem5_imgs/x86-ubuntu-24.04-img-4.0.0")
+# disk_image = obtain_resource("x86-ubuntu-24.04-img", resource_directory="/home/fjc/project/gem5_imgs/" , download_md5_mismatch=False)
+disk_image = DiskImageResource(local_path="/home/fjc/project/gem5_imgs/x86-ubuntu-24.04-img-4.0.0")
 board.set_kernel_disk_workload(  
-    kernel=obtain_resource("x86-linux-kernel-6.8.0-52-generic", resource_directory="/home/pqr/gem5_imgs/", download_md5_mismatch=False),      
+    kernel=obtain_resource("x86-linux-kernel-6.8.0-52-generic", resource_directory="/home/fjc/project/gem5_imgs/", download_md5_mismatch=False),      
     disk_image=disk_image,    
     # bootloader=obtain_resource("arm64-bootloader-foundation"), # 必须添加 Bootloader
     kernel_args=[

@@ -4,16 +4,22 @@
 #include "dev/io_device.hh"
 #include "params/PimCtrl.hh"
 #include "dev/arm/base_gic.hh"
+#include "mem/ramulator2.hh"
+#include "dev/gemv_request.hh"
 
 namespace gem5
 {
 
 class PimCtrl : public BasicPioDevice {
   public:
+
+
+
     PimCtrl(const PimCtrlParams &p);
     
     Tick read(PacketPtr pkt) override;
     Tick write(PacketPtr pkt) override; // 重点在这里：解析 CPU 的写请求
+    void sendGemvRequest();            // 发送GEMV请求
   
   private:
     /*
@@ -35,10 +41,21 @@ class PimCtrl : public BasicPioDevice {
       0x3008-0x300F        |   8B   | status
       0x3010-0x3017        |   8B   | intrrupt clear
     */
-    uint8_t reg[16 * 1024]; // 16KB 的寄存器空间
+    #define REG_WEIGHT_ADDR  0x2000  // 权重矩阵起始物理地址（8字节）
+    #define REG_RANK_NUM     0x2008  //使用的rank数目（1字节，预留7字节对齐）
+    #define REG_MATRIX_K     0x2010  // 矩阵维度 K（4字节，预留4字节对齐）
+    #define REG_MATRIX_N     0x2018  // 矩阵维度 N（4字节，预留4字节对齐）
+    #define REG_INPUT_PREC   0x2030  // 输入数据精度（如8/16/32，1字节）
+    #define REG_WEIGHT_PREC  0x2038  // 权重数据精度（字节）
+    #define REG_SCALE_PREC   0x2040  // Scale精度（1字节）
+    #define REG_CMD          0x2048  // 命令寄存器（写入1触发GEMV执行，1字节）
+    #define REG_INPUT_DATA   0x0000   // 输入向量数据写入起始偏移（批量写入INT8数据）
+    uint8_t reg[16 * 1024];           // 16KB 的寄存器空间
 
   private:
+    gem5::GemvRequest *gemv_req;
     ArmInterruptPin *irq;
+    gem5::memory::Ramulator2* ramulator2_ptr; // 用于发送GEMV请求
     bool pending = false;
 
     void raiseIrq() {
@@ -54,6 +71,7 @@ class PimCtrl : public BasicPioDevice {
             pending = false;
         }
     }
+
 };
 
 }

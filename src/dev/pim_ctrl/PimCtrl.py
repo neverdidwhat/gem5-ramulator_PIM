@@ -12,6 +12,7 @@ class PimCtrl(BasicPioDevice):
     interrupt = Param.ArmInterruptPin(
         ArmSPI(num=108), "Interrupt that connects to GIC"
     )
+    ramulator2_f = Param.Ramulator2("Reference to Ramulator2 for sending GEMV requests")
 
     def generateDeviceTree(self, state):
         """

@@ -1,7 +1,7 @@
 from gem5.utils.requires import requires  
 from gem5.components.boards.arm_board import ArmBoard  
-from gem5.components.memory.single_channel import DIMM_DDR5_8400  
-# from gem5.components.memory.ramulator_2 import SingleChannel
+# from gem5.components.memory.single_channel import DIMM_DDR5_8400  
+from gem5.components.memory.ramulator_2 import SingleChannel
 # from gem5.components.cachehierarchies.ruby.mesi_two_level_cache_hierarchy import MESITwoLevelCacheHierarchy  
 from gem5.components.cachehierarchies.classic.private_l1_private_l2_cache_hierarchy import PrivateL1PrivateL2CacheHierarchy
 from gem5.components.processors.simple_processor import SimpleProcessor  
@@ -42,8 +42,8 @@ cache_hierarchy = PrivateL1PrivateL2CacheHierarchy(
 )
 
 
-memory = DIMM_DDR5_8400(size="2GiB") 
-# memory = SingleChannel(config_path="/home/pqr/project/Ramulator_LPDDR6_PIM/example_config_LPDDR6_PIM_gem5.yaml", size="256MiB", range="256MiB") 
+# memory = DIMM_DDR5_8400(size="2GiB") 
+memory = SingleChannel(config_path="/home/fjc/project/Ramulator_LPDDR6_PIM_V2_copy/example_config_LPDDR6_PIM_gem5.yaml", size="256MiB", range="256MiB") 
 
 
 processor = SimpleProcessor(  
@@ -60,18 +60,18 @@ board = ArmBoard(
     cache_hierarchy=cache_hierarchy,  
     platform=VExpress_GEM5_V1_PIM()
 )  
+ramu = board.memory.mem_ctrl
+board._platform.pimctrl.ramulator2_f = ramu
 
 
-
-
-# disk_image = obtain_resource("arm64-ubuntu-18.04-img", resource_directory="/home/pqr/gem5_imgs/" , download_md5_mismatch=False)
-disk_image = DiskImageResource(local_path="/home/pqr/gem5_imgs/arm64-ubuntu-18.04-img-1.0.0", root_partition="1")
+# disk_image = obtain_resource("arm64-ubuntu-18.04-img", resource_directory="/home/fjc/project/gem5_imgs/" , download_md5_mismatch=False)
+disk_image = DiskImageResource(local_path="/home/fjc/project/gem5_imgs/arm64-ubuntu-18.04-img-1.0.0", root_partition="1")
 board.set_kernel_disk_workload(  
-    kernel=obtain_resource("arm64-linux-kernel-5.4.49", resource_directory="/home/pqr/gem5_imgs/", download_md5_mismatch=False),      
+    kernel=obtain_resource("arm64-linux-kernel-5.4.49", resource_directory="/home/fjc/project/gem5_imgs/", download_md5_mismatch=False),      
     disk_image=disk_image,    
     bootloader=obtain_resource("arm64-bootloader-foundation"), # 必须添加 Bootloader        
     # checkpoint=CheckpointResource(local_path="/home/pqr/gem5_outputs/ramulator_arm_fs/cpt.302319543168"),
-    readfile="/home/pqr/project/gem5/tests/test-progs/s1mple/src/pim_api"         
+    readfile="/home/fjc/project/gem5_ramulator/Pim_test/pim_api_v2"         
 )  
 
 
@@ -111,7 +111,7 @@ print(board._platform.pimctrl.pio_addr)  # 输出 pimctrl 设备的 pio_addr 地
 
 simulator = Simulator(  
     board=board,
-    outdir="/home/pqr/gem5_outputs/ramulator_arm_fs",
+    outdir="/home/fjc/gem5_outputs/ramulator_arm_fs",
 )  
 # print(simulator.get_checkpoint_dir())
 

@@ -7,6 +7,7 @@
 
 #include "mem/abstract_mem.hh"
 #include "params/Ramulator2.hh"
+#include "dev/gemv_request.hh"
 
 // Forward declare Ramulator2 top-level components
 namespace Ramulator
@@ -34,10 +35,12 @@ class Ramulator2 : public AbstractMemory
 
       public:
         MemorySystemPort(const std::string& _name, Ramulator2& _ramulator2);
+        
 
       protected:
         Tick recvAtomic(PacketPtr pkt) override { return ramulator2.recvAtomic(pkt); };
         void recvFunctional(PacketPtr pkt) override { ramulator2.recvFunctional(pkt); };
+        
         bool recvTimingReq(PacketPtr pkt) override { return ramulator2.recvTimingReq(pkt); };
         void recvRespRetry() override { ramulator2.recvRespRetry(); };
 
@@ -128,12 +131,15 @@ class Ramulator2 : public AbstractMemory
 
     void resetStats() override;
 
+    void recvGemvRequest(const gem5::GemvRequest& gemv);
+
   protected:
 
     Tick recvAtomic(PacketPtr pkt);
     void recvFunctional(PacketPtr pkt);
     bool recvTimingReq(PacketPtr pkt);
     void recvRespRetry();
+
 
 };
 

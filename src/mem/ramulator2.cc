@@ -1,5 +1,6 @@
 #include "mem/ramulator2.hh"
 
+
 #include "base/callback.hh"
 #include "base/trace.hh"
 #include "debug/Ramulator2.hh"
@@ -153,6 +154,43 @@ Ramulator2::recvFunctional(PacketPtr pkt)
     pkt->popLabel();
 }
 
+// ======================PIM cmd====================================
+void
+Ramulator2::recvGemvRequest(const gem5::GemvRequest& gemv)
+{
+    inform("Enter recvGemvRequest success!\n");
+
+    // 1. 构造 CommandArg
+    Ramulator::GEMVArg arg = {};
+    arg.k            = gemv.k;
+    arg.n            = gemv.n;
+    arg.input_precision     = gemv.input_prec;
+    arg.wgt_precision       = gemv.weight_prec;
+    arg.use_rank     = gemv.rank_num;
+
+    // 2. 发一个 GEMV 类型的 PIMRequest
+    bool enqueue_success =
+        ramulator2_frontend->receive_external_requests_gemv(
+            /*req_type_id=*/2,
+            /*addr=*/gemv.weight_addr,
+            /*source_id=*/0,
+            /*arg=*/arg,
+            /*callback=*/
+            [this](Ramulator::PIMRequest& pim_req) {
+                DPRINTF(Ramulator2,
+                    "GEMV completed: addr=%#lx\n",
+                    pim_req.addr);
+
+            });
+    
+    if(enqueue_success) {
+        DPRINTF(Ramulator2, "Success to enqueue GEMV request\n");
+    } else{
+        DPRINTF(Ramulator2, "Failed to enqueue GEMV request\n");
+    }
+}
+// =============================================================
+
 bool
 Ramulator2::recvTimingReq(PacketPtr pkt)
 {
@@ -179,7 +217,7 @@ Ramulator2::recvTimingReq(PacketPtr pkt)
     {
         // Generate ramulator READ request and try to send to ramulator's memory system
         enqueue_success = ramulator2_frontend->
-            receive_external_requests(0, pkt->getAddr(), 0,
+            receive_external_requests(0, pkt->getAddr(), 0, 
             [this](Ramulator::PIMRequest& req) {
                 DPRINTF(Ramulator2, "Read to %ld completed.\n", req.addr);
                 auto& pkt_q = outstandingReads.find(req.addr)->second;

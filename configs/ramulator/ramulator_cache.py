@@ -25,7 +25,7 @@ cache_hierarchy = PrivateL1CacheHierarchy(
 )
 
 # memory = SingleChannelDDR3_1600(size="2GiB")
-memory = SingleChannel(config_path="/home/pqr/project/Ramulator_LPDDR6_PIM/example_config_LPDDR6_PIM_gem5.yaml", size="256MiB", range="256MiB")
+memory = SingleChannel(config_path="/home/fjc/project/Ramulator_LPDDR6_PIM_V2_copy/example_config_LPDDR6_PIM_gem5.yaml", size="256MiB", range="256MiB")
 
 processor = SimpleProcessor(
     cpu_type=CPUTypes.TIMING,
@@ -42,7 +42,7 @@ board = SimpleBoard(
 
 
 # binary_resource = BinaryResource(local_path="tests/test-progs/hello/bin/arm/linux/hello")
-binary_resource = BinaryResource(local_path="/home/pqr/project/gem5/tests/test-progs/s1mple/src/s1mple_arm64")
+binary_resource = BinaryResource(local_path="/home/fjc/project/gem5/tests/test-progs/s1mple/src/s1mple_arm64")
 board.set_se_binary_workload(binary=binary_resource)
 
 
